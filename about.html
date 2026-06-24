@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — NexusPlay</title>
+  <meta name="description" content="Learn about NexusPlay — our mission, team, and how we're building the best gaming referral hub on the web." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>" />
+  <style>
+    /* ===== MISSION ===== */
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .mission-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mission-hexes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 320px;
+    }
+    .hex-item {
+      aspect-ratio: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1.8rem;
+      transition: var(--transition);
+      cursor: default;
+    }
+    .hex-item:hover { border-color: var(--border-hover); transform: scale(1.05); }
+    .hex-item.accent { background: linear-gradient(135deg, rgba(108,99,255,0.2), rgba(0,212,255,0.1)); border-color: var(--border-hover); }
+    .hex-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* ===== STATS BAND ===== */
+    .stats-band {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 56px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+    .stat-item { border-right: 1px solid var(--border); padding-right: 40px; }
+    .stat-item:last-child { border-right: none; padding-right: 0; }
+    .stat-num { font-family: var(--font-display); font-size: 2.4rem; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+    .stat-label { color: var(--text-secondary); font-size: 0.85rem; }
+
+    /* ===== VALUES ===== */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .value-card { padding: 32px 28px; display: flex; gap: 20px; }
+    .value-icon { width: 48px; height: 48px; min-width: 48px; background: rgba(108,99,255,0.12); border: 1px solid rgba(108,99,255,0.25); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .value-content h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .value-content p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.65; }
+
+    /* ===== TEAM ===== */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .team-card { padding: 28px 20px; text-align: center; }
+    .team-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 16px; border: 3px solid var(--border-hover); }
+    .team-name { font-family: var(--font-display); font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+    .team-role { color: var(--accent); font-size: 0.78rem; font-weight: 600; margin-bottom: 10px; }
+    .team-bio { color: var(--text-secondary); font-size: 0.82rem; line-height: 1.6; }
+
+    /* ===== TIMELINE ===== */
+    .timeline { position: relative; padding-left: 32px; }
+    .timeline::before { content: ''; position: absolute; left: 10px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, var(--accent), var(--accent-2)); }
+    .tl-item { position: relative; margin-bottom: 36px; }
+    .tl-dot { position: absolute; left: -26px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg-primary); box-shadow: 0 0 10px var(--accent-glow); }
+    .tl-year { font-family: var(--font-display); font-size: 0.72rem; color: var(--accent-2); font-weight: 700; letter-spacing: 0.1em; margin-bottom: 4px; }
+    .tl-title { font-weight: 700; margin-bottom: 4px; }
+    .tl-desc { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; }
+
+    @media (max-width: 900px) {
+      .mission-grid { grid-template-columns: 1fr; }
+      .mission-visual { order: -1; }
+      .stats-band { grid-template-columns: repeat(2, 1fr); }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
+      .stat-item:nth-child(2n) { border-right: none; }
+      .values-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .stats-band { padding: 36px 24px; }
+      .team-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><div class="logo-icon">🎮</div> NexusPlay</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="games.html">Games</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="games.html" class="btn btn-primary btn-sm nav-cta">Browse Games</a>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<nav class="mobile-nav">
+  <a href="../index.html">Home</a><a href="games.html">Games</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="orb orb-purple" style="width:500px;height:500px;top:-200px;left:50%;transform:translateX(-50%);"></div>
+  <div class="grid-bg"></div>
+  <div class="eyebrow fade-up">Our Story</div>
+  <h1 class="fade-up-2">Built by <span style="color:var(--accent);">Gamers</span>,<br>For Gamers</h1>
+  <p class="fade-up-3">NexusPlay was born from a simple idea: make it easier to discover great games and get rewarded for spreading the word.</p>
+</div>
+
+<!-- MISSION -->
+<section class="section">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="reveal">
+        <div class="eyebrow">Our Mission</div>
+        <h2 class="section-title">We Connect <span>Players</span> to Opportunities</h2>
+        <p style="color:var(--text-secondary);line-height:1.75;margin-bottom:20px;">NexusPlay started in 2023 when a small group of passionate gamers noticed a gap: amazing games with great referral programs, but no single place to discover them all.</p>
+        <p style="color:var(--text-secondary);line-height:1.75;margin-bottom:32px;">We built the platform we always wanted — a clean, fast, trustworthy hub where you can find top-rated games, grab your unique referral link, and start earning real rewards just by sharing what you love.</p>
+        <a href="games.html" class="btn btn-primary">Start Earning Today ↗</a>
+      </div>
+      <div class="mission-visual reveal">
+        <div class="mission-hexes">
+          <div class="hex-item"><span>🎮</span><span class="hex-label">Games</span></div>
+          <div class="hex-item accent"><span>🔗</span><span class="hex-label">Links</span></div>
+          <div class="hex-item"><span>👥</span><span class="hex-label">Community</span></div>
+          <div class="hex-item"><span>💰</span><span class="hex-label">Rewards</span></div>
+          <div class="hex-item"><span>⭐</span><span class="hex-label">Reviews</span></div>
+          <div class="hex-item accent"><span>🏆</span><span class="hex-label">Rankings</span></div>
+          <div class="hex-item"><span>📊</span><span class="hex-label">Analytics</span></div>
+          <div class="hex-item"><span>🛡️</span><span class="hex-label">Trust</span></div>
+          <div class="hex-item accent"><span>🚀</span><span class="hex-label">Growth</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="section" style="padding-top:0;">
+  <div class="container reveal">
+    <div class="stats-band">
+      <div class="stat-item">
+        <div class="stat-num"><span class="stat-number" data-target="120" data-suffix="+">0+</span></div>
+        <div class="stat-label">Games Listed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num"><span class="stat-number" data-target="45000" data-suffix="+">0+</span></div>
+        <div class="stat-label">Active Players</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num"><span class="stat-number" data-target="2800000" data-suffix="+">0+</span></div>
+        <div class="stat-label">Referral Coins Earned</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num"><span class="stat-number" data-target="98" data-suffix="%">0%</span></div>
+        <div class="stat-label">Satisfaction Rate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px;" class="reveal">
+      <div class="eyebrow">What We Stand For</div>
+      <h2 class="section-title">Our Core <span>Values</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="values-grid reveal-group">
+      <div class="card value-card">
+        <div class="value-icon">🔍</div>
+        <div class="value-content">
+          <h3>Transparency First</h3>
+          <p>Every referral link is labeled. Every reward is disclosed. We believe gamers deserve to know exactly what they're clicking and what they'll earn — no hidden strings attached.</p>
+        </div>
+      </div>
+      <div class="card value-card">
+        <div class="value-icon">🛡️</div>
+        <div class="value-content">
+          <h3>Quality Over Quantity</h3>
+          <p>We manually vet every game in our catalog. If a title doesn't meet our standards for fun, fairness, and community reputation, it doesn't make the cut — period.</p>
+        </div>
+      </div>
+      <div class="card value-card">
+        <div class="value-icon">👥</div>
+        <div class="value-content">
+          <h3>Community Driven</h3>
+          <p>Our rankings and featured lists are shaped by real player reviews and activity. The community decides what rises to the top — not advertising budgets.</p>
+        </div>
+      </div>
+      <div class="card value-card">
+        <div class="value-icon">⚡</div>
+        <div class="value-content">
+          <h3>Always Improving</h3>
+          <p>We push updates weekly — new games, better tools, fresh data. Our team is obsessed with making NexusPlay faster, smarter, and more rewarding with every release.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px;" class="reveal">
+      <div class="eyebrow">The People</div>
+      <h2 class="section-title">Meet the <span>Team</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="team-grid reveal-group">
+      <div class="card team-card">
+        <div class="team-avatar">👨‍💻</div>
+        <div class="team-name">Alex Rivera</div>
+        <div class="team-role">Founder & CEO</div>
+        <p class="team-bio">10-year gamer turned entrepreneur. Obsessed with building tools that make the gaming ecosystem fairer for players.</p>
+      </div>
+      <div class="card team-card">
+        <div class="team-avatar">👩‍🎨</div>
+        <div class="team-name">Mia Chen</div>
+        <div class="team-role">Head of Design</div>
+        <p class="team-bio">Former UI designer at a major game studio. Brings pixel-perfect precision and a player-first perspective to every screen.</p>
+      </div>
+      <div class="card team-card">
+        <div class="team-avatar">🧑‍🔬</div>
+        <div class="team-name">Jordan Taylor</div>
+        <div class="team-role">Lead Developer</div>
+        <p class="team-bio">Full-stack wizard who built the referral tracking engine from scratch. Speed enthusiast and weekend speedrunner.</p>
+      </div>
+      <div class="card team-card">
+        <div class="team-avatar">👩‍💼</div>
+        <div class="team-name">Priya Sharma</div>
+        <div class="team-role">Partnerships</div>
+        <p class="team-bio">Manages relationships with 50+ game studios. Secures exclusive referral rates that you won't find anywhere else.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;">
+      <div class="reveal">
+        <div class="eyebrow">How We Got Here</div>
+        <h2 class="section-title">Our <span>Journey</span></h2>
+        <p style="color:var(--text-secondary);line-height:1.75;margin-top:16px;">From a weekend project to a platform serving tens of thousands of gamers worldwide — here's how NexusPlay grew.</p>
+      </div>
+      <div class="timeline reveal">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">JANUARY 2023</div>
+          <div class="tl-title">The Idea</div>
+          <p class="tl-desc">Alex and Jordan sketch the first wireframes over Discord. The concept: one link hub for all gaming referrals.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">APRIL 2023</div>
+          <div class="tl-title">Beta Launch</div>
+          <p class="tl-desc">NexusPlay goes live with 12 games and 200 early testers. The community response is overwhelming.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">SEPTEMBER 2023</div>
+          <div class="tl-title">50 Games Milestone</div>
+          <p class="tl-desc">Priya joins to lead partnerships. The catalog grows to 50 vetted titles. 5,000 active users.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2024</div>
+          <div class="tl-title">Rapid Expansion</div>
+          <p class="tl-desc">100+ games listed. Referral coins system launches. Community crosses 30K active players.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--accent-2);box-shadow:0 0 10px var(--accent-2-glow);"></div>
+          <div class="tl-year">TODAY</div>
+          <div class="tl-title">120+ Games & Growing</div>
+          <p class="tl-desc">45,000 players. 2.8M+ coins distributed. New games added every single week. And we're just getting started.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding-top:0;">
+  <div class="container reveal">
+    <div class="banner-cta">
+      <div class="orb orb-cyan" style="width:300px;height:300px;bottom:-80px;left:-80px;opacity:0.8;"></div>
+      <div class="eyebrow">Join Us</div>
+      <h2>Become Part of the NexusPlay Story</h2>
+      <p>Thousands of gamers are already earning rewards. Browse the library, grab your links, and start building your referral income today.</p>
+      <div class="banner-actions">
+        <a href="games.html" class="btn btn-primary">Browse Games ↗</a>
+        <a href="contact.html" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="../index.html" class="nav-logo" style="font-size:1rem;"><div class="logo-icon">🎮</div> NexusPlay</a><p>Your trusted hub for curated gaming referral links. Discover new games and earn real rewards by sharing with the community.</p></div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="../index.html">Home</a></li><li><a href="games.html">Games</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Categories</h4><ul><li><a href="games.html">RPG Games</a></li><li><a href="games.html">Shooters</a></li><li><a href="games.html">MOBA</a></li><li><a href="games.html">Strategy</a></li></ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Use</a></li><li><a href="#">Affiliate Disclosure</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 NexusPlay. All rights reserved.</p><p>Built with ❤️ for gamers worldwide</p></div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
