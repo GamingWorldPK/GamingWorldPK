@@ -1,181 +1,535 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Gaming Hub - Games</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Games — NexusPlay</title>
+  <meta name="description" content="Browse 120+ games with exclusive referral links. Filter by genre and start earning rewards today." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>" />
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #fff;
+    /* ===== FILTER BAR ===== */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
     }
-
-    header {
-      background: #111827;
-      padding: 15px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      color: #38bdf8;
-    }
-
-    /* Search Bar */
-    .search-bar {
-      text-align: center;
-      margin: 20px;
-    }
-
-    .search-bar input {
-      width: 60%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      font-size: 16px;
-    }
-
-    /* Categories */
-    .categories {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .categories button {
-      margin: 5px;
-      padding: 8px 15px;
-      border: none;
-      border-radius: 20px;
+    .filter-btn {
+      padding: 8px 20px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
       cursor: pointer;
-      background: #1f2937;
-      color: white;
-      transition: 0.3s;
+      transition: var(--transition);
+      letter-spacing: 0.03em;
+    }
+    .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 16px var(--accent-glow);
     }
 
-    .categories button:hover {
-      background: #38bdf8;
-      color: black;
+    /* ===== SEARCH BAR ===== */
+    .search-wrap {
+      margin-left: auto;
+      position: relative;
+    }
+    .search-wrap input {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      padding: 10px 16px 10px 40px;
+      width: 220px;
+      transition: var(--transition);
+      outline: none;
+    }
+    .search-wrap input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    .search-wrap input::placeholder { color: var(--text-muted); }
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 12px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      pointer-events: none;
     }
 
-    /* Game Grid */
-    .grid {
+    /* ===== GAMES GRID ===== */
+    .games-listing {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
     }
 
-    .card {
-      background: #1f2937;
-      border-radius: 15px;
+    /* ===== GAME CARD ===== */
+    .game-card {
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+    }
+    .gc-thumb {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      position: relative;
       overflow: hidden;
-      transition: 0.3s;
+      border-radius: 18px 18px 0 0;
+    }
+    .gc-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, var(--bg-card) 100%);
+    }
+    .gc-thumb .free-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      z-index: 2;
+    }
+    .gc-body { padding: 20px 20px 22px; flex: 1; display: flex; flex-direction: column; }
+    .gc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .gc-title { font-family: var(--font-display); font-size: 0.92rem; font-weight: 700; }
+    .gc-rating { color: #fbbf24; font-size: 0.8rem; margin-bottom: 10px; display: flex; align-items: center; gap: 4px; }
+    .gc-rating span { color: var(--text-muted); font-size: 0.75rem; }
+    .gc-desc { color: var(--text-secondary); font-size: 0.84rem; line-height: 1.6; margin-bottom: 16px; flex: 1; }
+    .gc-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .gc-footer {
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+    .gc-footer .btn { flex: 1; justify-content: center; font-size: 0.72rem; padding: 10px 12px; }
+    .gc-reward {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: #34d399;
+      margin-bottom: 14px;
+      font-weight: 500;
     }
 
-    .card:hover {
-      transform: scale(1.05);
+    /* ===== PAGINATION ===== */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 56px;
     }
+    .page-btn {
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: var(--font-body);
+    }
+    .page-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .page-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-    .card img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-    }
+    /* ===== SIDEBAR STATS ===== */
+    .page-layout { display: grid; grid-template-columns: 1fr 280px; gap: 40px; align-items: start; }
+    .sidebar { position: sticky; top: 100px; display: flex; flex-direction: column; gap: 20px; }
+    .sidebar-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+    .sidebar-card h3 { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
+    .sidebar-stat { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .sidebar-stat:last-child { border-bottom: none; }
+    .sidebar-stat-label { font-size: 0.85rem; color: var(--text-secondary); }
+    .sidebar-stat-val { font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; color: var(--accent); }
+    .top-genre { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+    .genre-icon { font-size: 1.2rem; }
+    .genre-bar-wrap { flex: 1; }
+    .genre-name { font-size: 0.8rem; margin-bottom: 4px; color: var(--text-secondary); }
+    .genre-bar { height: 4px; background: rgba(108,99,255,0.15); border-radius: 2px; overflow: hidden; }
+    .genre-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 2px; }
 
-    .card-content {
-      padding: 10px;
-    }
-
-    .rating {
-      color: gold;
-      margin: 5px 0;
-    }
-
-    .btn {
-      display: block;
-      text-align: center;
-      margin-top: 10px;
-      padding: 10px;
-      background: #38bdf8;
-      color: black;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-
-    .btn:hover {
-      background: #0ea5e9;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #111827;
-      margin-top: 20px;
-      color: #9ca3af;
-    }
+    @media (max-width: 1100px) { .page-layout { grid-template-columns: 1fr; } .sidebar { position: static; } }
+    @media (max-width: 768px) { .games-listing { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px) { .games-listing { grid-template-columns: 1fr; } .filter-bar { flex-direction: column; align-items: flex-start; } .search-wrap { margin-left: 0; width: 100%; } .search-wrap input { width: 100%; } }
   </style>
 </head>
-
 <body>
 
-<header>🎮 Gaming Referral Hub</header>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">
+      <div class="logo-icon">🎮</div> NexusPlay
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="games.html">Games</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="games.html" class="btn btn-primary btn-sm nav-cta">Browse Games</a>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<nav class="mobile-nav">
+  <a href="../index.html">Home</a>
+  <a href="games.html">Games</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
 
-<!-- Search -->
-<div class="search-bar">
-  <input type="text" placeholder="Search games...">
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="orb orb-purple" style="width:500px;height:500px;top:-200px;left:50%;transform:translateX(-50%);"></div>
+  <div class="grid-bg"></div>
+  <div class="eyebrow fade-up">Game Library</div>
+  <h1 class="fade-up-2"><span style="color:var(--accent);">120+</span> Games. Endless Rewards.</h1>
+  <p class="fade-up-3">Browse our full catalog of curated titles with exclusive referral links. Filter by genre and start earning today.</p>
 </div>
 
-<!-- Categories -->
-<div class="categories">
-  <button>All</button>
-  <button>Action</button>
-  <button>Adventure</button>
-  <button>FPS</button>
-  <button>Racing</button>
-  <button>Strategy</button>
-</div>
+<!-- MAIN CONTENT -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="page-layout">
+      <!-- Games List -->
+      <div>
+        <!-- Filter Bar -->
+        <div class="filter-bar reveal">
+          <button class="filter-btn active" data-filter="all">All Games</button>
+          <button class="filter-btn" data-filter="rpg">RPG</button>
+          <button class="filter-btn" data-filter="shooter">Shooter</button>
+          <button class="filter-btn" data-filter="moba">MOBA</button>
+          <button class="filter-btn" data-filter="strategy">Strategy</button>
+          <button class="filter-btn" data-filter="sports">Sports</button>
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search games..." id="gameSearch" />
+          </div>
+        </div>
 
-<!-- Games Grid -->
-<div class="grid">
+        <!-- Cards Grid -->
+        <div class="games-listing" id="gamesGrid">
 
-  <div class="card">
-    <img src="https://via.placeholder.com/300x150" alt="Game">
-    <div class="card-content">
-      <h3>Game Title 1</h3>
-      <div class="rating">⭐⭐⭐⭐☆</div>
-      <p>Best action-packed game with rewards.</p>
-      <a href="#" class="btn">🔥 Play & Earn</a>
+          <div class="card game-card" data-genre="rpg">
+            <div class="gc-thumb" style="background:linear-gradient(135deg,#0d0533,#2d1060);">
+              ⚔️
+              <span class="free-badge badge badge-green">Free to Play</span>
+            </div>
+            <div class="gc-body">
+              <div class="gc-header">
+                <div class="gc-title">Shadow Realm RPG</div>
+                <span class="badge badge-purple">RPG</span>
+              </div>
+              <div class="gc-rating">★★★★☆ <span>(4.2 · 12.4k reviews)</span></div>
+              <p class="gc-desc">Dark fantasy RPG with deep lore, real-time combat, massive open world, and unlimited character builds.</p>
+              <div class="gc-reward">🪙 Earn 500 coins per referral</div>
+              <div class="gc-tags">
+                <span class="badge badge-purple">Dark Fantasy</span>
+                <span class="badge badge-cyan">Open World</span>
+              </div>
+              <div class="gc-footer">
+                <a href="https://shadowrealmrpg.com/ref=nexusplay" target="_blank" class="btn btn-primary">Play Now ↗</a>
+                <button class="btn btn-outline copy-btn" data-url="https://shadowrealmrpg.com/ref=nexusplay">Copy Link</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card game-card" data-genre="shooter">
+            <div class="gc-thumb" style="background:linear-gradient(135deg,#001a33,#003366);">
+              🚀
+              <span class="free-badge badge badge-green">Free to Play</span>
+            </div>
+            <div class="gc-body">
+              <div class="gc-header">
+                <div class="gc-title">Void Striker</div>
+                <span class="badge badge-cyan">Shooter</span>
+              </div>
+              <div class="gc-rating">★★★★★ <span>(4.9 · 8.1k reviews)</span></div>
+              <p class="gc-desc">Zero-gravity tactical shooter. Ranked modes, neon aesthetics, and a lightning-fast battle pass ecosystem.</p>
+              <div class="gc-reward">🪙 Earn 750 coins per referral</div>
+              <div class="gc-tags">
+                <span class="badge badge-cyan">Sci-Fi</span>
+                <span class="badge badge-orange">Competitive</span>
+              </div>
+              <div class="gc-footer">
+                <a href="https://voidstriker.gg/ref=nexusplay" target="_blank" class="btn btn-primary">Play Now ↗</a>
+                <button class="btn btn-outline copy-btn" data-url="https://voidstriker.gg/ref=nexusplay">Copy Link</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card game-card" data-genre="moba">
+            <div class="gc-thumb" style="background:linear-gradient(135deg,#1a1a00,#3d3300);">
+              🏆
+              <span class="free-badge badge badge-green">Free to Play</span>
+            </div>
+            <div class="gc-body">
+              <div class="gc-header">
+                <div class="gc-title">Arena Champions</div>
+                <span class="badge badge-orange">MOBA</span>
+              </div>
+              <div class="gc-rating">★★★★★ <span>(4.8 · 20.3k reviews)</span></div>
+              <p class="gc-desc">Epic 5v5 MOBA with 80+ unique champions, ranked seasons, and a massive global esports tournament scene.</p>
+              <div class="gc-reward">🪙 Earn 1000 coins per referral</div>
+              <div class="gc-tags">
+                <span class="badge badge-orange">Esports</span>
+                <span class="badge badge-purple">Competitive</span>
+              </div>
+              <div class="gc-footer">
+                <a href="https://arenachampions.com/ref=nexusplay" target="_blank" class="btn btn-primary">Play Now ↗</a>
+                <button class="btn btn-outline copy-btn" data-url="https://arenachampions.com/ref=nexusplay">Copy Link</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card game-card" data-genre="strategy">
+            <div class="gc-thumb" style="background:linear-gradient(135deg,#001a10,#003320);">
+              🏰
+            </div>
+            <div class="gc-body">
+              <div class="gc-header">
+                <div class="gc-title">Empire Builder</div>
+                <span class="badge badge-green">Strategy</span>
+              </div>
+              <div class="gc-rating">★★★★☆ <span>(4.3 · 6.7k reviews)</span></div>
+              <p class="gc-desc">Build civilizations, forge alliances, and conquer rivals in this deep real-time strategy experience.</p>
+              <div class="gc-reward">🪙 Earn 400 coins per referral</div>
+              <div class="gc-tags">
+                <span class="badge badge-green">RTS</span>
+                <span class="badge badge-cyan">Multiplayer</span>
+              </div>
+              <div class="gc-footer">
+                <a href="https://empirebuilder.io/ref=nexusplay" target="_blank" class="btn btn-primary">Play Now ↗</a>
+                <button class="btn btn-outline copy-btn" data-url="https://empirebuilder.io/ref=nexusplay">Copy Link</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card game-card" data-genre="sports">
+            <div class="gc-thumb" style="background:linear-gradient(135deg,#1a0a00,#3d1a00);">
+              ⚽
+              <span class="free-badge badge badge-green">Free to Play</span>
+            </div>
+            <div class="gc-body">
+              <div class="gc-header">
+                <div class="gc-title">Kick Rush FC</div>
+                <span class="badge badge-orange">Sports</span>
+              </div>
+              <div class="gc-rating">★★★★☆ <span>(4.1 · 9.2k reviews)</span></div>
+              <p class="gc-desc">Fast-paced arcade football with global tournaments, squad building mechanics, and weekly leagues.</p>
+              <div class="gc-reward">🪙 Earn 350 coins per referral</div>
+              <div class="gc-tags">
+                <span class="badge badge-orange">Football</span>
+                <span class="badge badge-purple">Arcade</span>
+              </div>
+              <div class="gc-footer">
+                <a href="https://kickrushfc.com/ref=nexusplay" target="_blank" class="btn btn-primary">Play Now ↗</a>
+                <button class="btn btn-outline copy-btn" data-url="https://kickrushfc.com/ref=nexusplay">Copy Link</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card game-card" data-genre="rpg">
+            <div class="gc-thumb" style="background:linear-gradient(135deg,#330010,#660022);">
+              🧙
+            </div>
+            <div class="gc-body">
+              <div class="gc-header">
+                <div class="gc-title">Mage Wars Online</div>
+                <span class="badge badge-purple">RPG</span>
+              </div>
+              <div class="gc-rating">★★★★☆ <span>(4.4 · 5.5k reviews)</span></div>
+              <p class="gc-desc">Tactical card-based RPG where you build powerful spell decks and duel rivals in ranked arenas.</p>
+              <div class="gc-reward">🪙 Earn 600 coins per referral</div>
+              <div class="gc-tags">
+                <span class="badge badge-purple">Card Game</span>
+                <span class="badge badge-cyan">PvP</span>
+              </div>
+              <div class="gc-footer">
+                <a href="https://magewars.online/ref=nexusplay" target="_blank" class="btn btn-primary">Play Now ↗</a>
+                <button class="btn btn-outline copy-btn" data-url="https://magewars.online/ref=nexusplay">Copy Link</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card game-card" data-genre="shooter">
+            <div class="gc-thumb" style="background:linear-gradient(135deg,#001a1a,#003333);">
+              🔫
+              <span class="free-badge badge badge-green">Free to Play</span>
+            </div>
+            <div class="gc-body">
+              <div class="gc-header">
+                <div class="gc-title">Phantom Ops</div>
+                <span class="badge badge-cyan">Shooter</span>
+              </div>
+              <div class="gc-rating">★★★★★ <span>(4.7 · 15.8k reviews)</span></div>
+              <p class="gc-desc">Hyper-realistic tactical FPS with squad-based mechanics, destructible environments, and clan warfare.</p>
+              <div class="gc-reward">🪙 Earn 850 coins per referral</div>
+              <div class="gc-tags">
+                <span class="badge badge-cyan">FPS</span>
+                <span class="badge badge-orange">Tactical</span>
+              </div>
+              <div class="gc-footer">
+                <a href="https://phantomops.gg/ref=nexusplay" target="_blank" class="btn btn-primary">Play Now ↗</a>
+                <button class="btn btn-outline copy-btn" data-url="https://phantomops.gg/ref=nexusplay">Copy Link</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card game-card" data-genre="strategy">
+            <div class="gc-thumb" style="background:linear-gradient(135deg,#00001a,#000044);">
+              🌌
+            </div>
+            <div class="gc-body">
+              <div class="gc-header">
+                <div class="gc-title">Galactic Dominion</div>
+                <span class="badge badge-green">Strategy</span>
+              </div>
+              <div class="gc-rating">★★★★☆ <span>(4.2 · 3.9k reviews)</span></div>
+              <p class="gc-desc">4X space strategy: expand your empire, exploit resources, exterminate rivals, and extol your galactic rule.</p>
+              <div class="gc-reward">🪙 Earn 550 coins per referral</div>
+              <div class="gc-tags">
+                <span class="badge badge-green">4X</span>
+                <span class="badge badge-purple">Space</span>
+              </div>
+              <div class="gc-footer">
+                <a href="https://galacticdominion.com/ref=nexusplay" target="_blank" class="btn btn-primary">Play Now ↗</a>
+                <button class="btn btn-outline copy-btn" data-url="https://galacticdominion.com/ref=nexusplay">Copy Link</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card game-card" data-genre="moba">
+            <div class="gc-thumb" style="background:linear-gradient(135deg,#1a000a,#3d0022);">
+              🗡️
+              <span class="free-badge badge badge-green">Free to Play</span>
+            </div>
+            <div class="gc-body">
+              <div class="gc-header">
+                <div class="gc-title">Nexus Clash</div>
+                <span class="badge badge-orange">MOBA</span>
+              </div>
+              <div class="gc-rating">★★★★☆ <span>(4.5 · 11.2k reviews)</span></div>
+              <p class="gc-desc">3v3 fast-paced MOBA designed for mobile and PC cross-play with short match times and deep hero mechanics.</p>
+              <div class="gc-reward">🪙 Earn 700 coins per referral</div>
+              <div class="gc-tags">
+                <span class="badge badge-orange">Cross-Play</span>
+                <span class="badge badge-cyan">PvP</span>
+              </div>
+              <div class="gc-footer">
+                <a href="https://nexusclash.io/ref=nexusplay" target="_blank" class="btn btn-primary">Play Now ↗</a>
+                <button class="btn btn-outline copy-btn" data-url="https://nexusclash.io/ref=nexusplay">Copy Link</button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /gamesGrid -->
+
+        <!-- Pagination -->
+        <div class="pagination reveal">
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">→</button>
+        </div>
+      </div><!-- /main col -->
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-card reveal">
+          <h3>Library Stats</h3>
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Total Games</span><span class="sidebar-stat-val">120+</span></div>
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Active Players</span><span class="sidebar-stat-val">45K+</span></div>
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Avg. Reward</span><span class="sidebar-stat-val">620 coins</span></div>
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Updated</span><span class="sidebar-stat-val">Weekly</span></div>
+        </div>
+        <div class="sidebar-card reveal">
+          <h3>Popular Genres</h3>
+          <div class="top-genre">
+            <div class="genre-icon">🚀</div>
+            <div class="genre-bar-wrap">
+              <div class="genre-name">Shooter</div>
+              <div class="genre-bar"><div class="genre-bar-fill" style="width:85%"></div></div>
+            </div>
+          </div>
+          <div class="top-genre">
+            <div class="genre-icon">⚔️</div>
+            <div class="genre-bar-wrap">
+              <div class="genre-name">RPG</div>
+              <div class="genre-bar"><div class="genre-bar-fill" style="width:72%"></div></div>
+            </div>
+          </div>
+          <div class="top-genre">
+            <div class="genre-icon">🏆</div>
+            <div class="genre-bar-wrap">
+              <div class="genre-name">MOBA</div>
+              <div class="genre-bar"><div class="genre-bar-fill" style="width:65%"></div></div>
+            </div>
+          </div>
+          <div class="top-genre">
+            <div class="genre-icon">🏰</div>
+            <div class="genre-bar-wrap">
+              <div class="genre-name">Strategy</div>
+              <div class="genre-bar"><div class="genre-bar-fill" style="width:48%"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-card reveal" style="background:linear-gradient(135deg,rgba(108,99,255,0.12),rgba(0,212,255,0.08));border-color:var(--border-hover);">
+          <h3>💡 Pro Tip</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.65;margin-top:4px;">Share referral links on Discord servers and gaming communities to maximize your earnings. Games with higher coin rewards convert faster!</p>
+        </div>
+      </aside>
     </div>
   </div>
+</section>
 
-  <div class="card">
-    <img src="https://via.placeholder.com/300x150" alt="Game">
-    <div class="card-content">
-      <h3>Game Title 2</h3>
-      <div class="rating">⭐⭐⭐⭐⭐</div>
-      <p>Top trending multiplayer game.</p>
-      <a href="#" class="btn">💰 Join Now</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/300x150" alt="Game">
-    <div class="card-content">
-      <h3>Game Title 3</h3>
-      <div class="rating">⭐⭐⭐⭐☆</div>
-      <p>Adventure game with rewards system.</p>
-      <a href="#" class="btn">🚀 Start Playing</a>
-    </div>
-  </div>
-
-</div>
-
+<!-- FOOTER -->
 <footer>
-  © 2026 Gaming Hub | All Rights Reserved
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="nav-logo" style="font-size:1rem;"><div class="logo-icon">🎮</div> NexusPlay</a>
+        <p>Your trusted hub for curated gaming referral links. Discover new games and earn real rewards by sharing with the community.</p>
+      </div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="../index.html">Home</a></li><li><a href="games.html">Games</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Categories</h4><ul><li><a href="games.html">RPG Games</a></li><li><a href="games.html">Shooters</a></li><li><a href="games.html">MOBA</a></li><li><a href="games.html">Strategy</a></li></ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Use</a></li><li><a href="#">Affiliate Disclosure</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 NexusPlay. All rights reserved.</p><p>Built with ❤️ for gamers worldwide</p></div>
+  </div>
 </footer>
 
+<script src="../js/main.js"></script>
+<script>
+  // Live search
+  const searchInput = document.getElementById('gameSearch');
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase();
+    document.querySelectorAll('.game-card').forEach(card => {
+      const title = card.querySelector('.gc-title').textContent.toLowerCase();
+      const desc = card.querySelector('.gc-desc').textContent.toLowerCase();
+      card.style.display = (title.includes(q) || desc.includes(q)) ? 'flex' : 'none';
+    });
+  });
+</script>
 </body>
 </html>
