@@ -1,183 +1,465 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Gaming World PK</title>
-</head>
-<body>
-  <h1>Welcome to Gaming World PK 🎮</h1>
-  <p>Free games links and updates here.</p>
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming World PK</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexusPlay — Discover & Earn Through Games</title>
+  <meta name="description" content="Discover the best online games and earn rewards through exclusive referral links. Join thousands of gamers on NexusPlay." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>" />
+  <style>
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 24px 80px;
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(108,99,255,0.1);
+      border: 1px solid rgba(108,99,255,0.3);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+      letter-spacing: 0.06em;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse-glow 2s infinite;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-weight: 900;
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+    .hero h1 .line-accent { color: var(--accent); display: block; }
+    .hero h1 .line-cyan { color: var(--accent-2); display: block; }
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      max-width: 460px;
+      line-height: 1.75;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .hero-stat-label { color: var(--text-muted); font-size: 0.78rem; margin-top: 2px; letter-spacing: 0.06em; }
 
-    <link rel="stylesheet" href="style.css">
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-card-stack { position: relative; width: 360px; height: 420px; }
+    .hero-game-card {
+      position: absolute;
+      width: 280px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .hero-game-card:nth-child(1) { top: 20px; right: 0; transform: rotate(6deg); z-index: 1; }
+    .hero-game-card:nth-child(2) { top: 60px; left: 0; transform: rotate(-4deg); z-index: 2; }
+    .hero-game-card:nth-child(3) { top: 100px; left: 50%; transform: translateX(-50%); z-index: 3; box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px var(--accent-glow); border-color: var(--border-hover); }
+    .hgc-thumb {
+      width: 100%;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+    }
+    .hgc-info { padding: 14px 16px 16px; }
+    .hgc-title { font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; margin-bottom: 6px; }
+    .hgc-meta { display: flex; justify-content: space-between; align-items: center; }
+    .hgc-rating { color: #fbbf24; font-size: 0.78rem; }
+    .glow-ring {
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      border: 1px solid rgba(108,99,255,0.2);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: spin-slow 20s linear infinite;
+    }
+    @keyframes spin-slow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* ===== HOW IT WORKS ===== */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .step-card {
+      padding: 36px 28px;
+      position: relative;
+    }
+    .step-num {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 900;
+      color: rgba(108,99,255,0.12);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .step-icon {
+      width: 52px; height: 52px;
+      background: rgba(108,99,255,0.12);
+      border: 1px solid rgba(108,99,255,0.25);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .step-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+    .step-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.65; }
+    .step-connector {
+      position: absolute;
+      top: 52px; right: -12px;
+      width: 24px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      z-index: 10;
+    }
+
+    /* ===== FEATURED GAMES ===== */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feat-game-card {
+      display: flex;
+      flex-direction: column;
+    }
+    .fgc-thumb {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .fgc-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, var(--bg-card) 100%);
+    }
+    .fgc-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .fgc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .fgc-title { font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; }
+    .fgc-desc { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin-bottom: 20px; flex: 1; }
+    .fgc-footer { display: flex; gap: 10px; }
+    .fgc-footer .btn { flex: 1; justify-content: center; }
+
+    /* ===== BANNER CTA ===== */
+    .banner-cta {
+      background: linear-gradient(135deg, rgba(108,99,255,0.2) 0%, rgba(0,212,255,0.1) 100%);
+      border: 1px solid var(--border-hover);
+      border-radius: 24px;
+      padding: 72px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .banner-cta h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); margin-bottom: 16px; }
+    .banner-cta p { color: var(--text-secondary); font-size: 1rem; max-width: 480px; margin: 0 auto 36px; }
+    .banner-actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { display: none; }
+      .steps-grid, .games-grid { grid-template-columns: 1fr; }
+      .banner-cta { padding: 48px 28px; }
+    }
+    @media (max-width: 640px) {
+      .hero-stats { flex-direction: column; gap: 20px; }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-    <h1>🎮 Gaming World PK</h1>
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🎮</div>
+      NexusPlay
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="pages/games.html">Games</a></li>
+      <li><a href="pages/about.html">About</a></li>
+      <li><a href="pages/contact.html">Contact</a></li>
+    </ul>
+    <a href="pages/games.html" class="btn btn-primary btn-sm nav-cta">Browse Games</a>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="pages/games.html">Games</a>
+  <a href="pages/about.html">About</a>
+  <a href="pages/contact.html">Contact</a>
+</nav>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="games.html">Games</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-    </nav>
-</header>
-
+<!-- ===== HERO ===== -->
 <section class="hero">
+  <div class="orb orb-purple" style="width:600px;height:600px;top:-200px;left:-200px;"></div>
+  <div class="orb orb-cyan" style="width:400px;height:400px;bottom:-100px;right:-100px;"></div>
+  <div class="grid-bg"></div>
 
-<h2>Play Games & Earn Rewards</h2>
+  <div class="hero-inner">
+    <div class="hero-content fade-up">
+      <div class="hero-badge"><span class="dot"></span> New Games Added Weekly</div>
+      <h1>
+        Play More.
+        <span class="line-accent">Earn More.</span>
+        <span class="line-cyan">Win More.</span>
+      </h1>
+      <p>Your ultimate hub for curated gaming referral links. Discover top titles, share with friends, and earn rewards for every player you bring aboard.</p>
+      <div class="hero-actions">
+        <a href="pages/games.html" class="btn btn-primary">Explore Games ↗</a>
+        <a href="pages/about.html" class="btn btn-outline">How It Works</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num"><span class="stat-number" data-target="120" data-suffix="+">0+</span></div>
+          <div class="hero-stat-label">Games Listed</div>
+        </div>
+        <div>
+          <div class="hero-stat-num"><span class="stat-number" data-target="45000" data-suffix="+">0+</span></div>
+          <div class="hero-stat-label">Active Players</div>
+        </div>
+        <div>
+          <div class="hero-stat-num"><span class="stat-number" data-target="98" data-suffix="%">0%</span></div>
+          <div class="hero-stat-label">Satisfaction Rate</div>
+        </div>
+      </div>
+    </div>
 
-<p>
-Find the latest games and join using our referral links to claim rewards.
-</p>
-
-<a href="games.html" class="btn">View Games</a>
-
+    <div class="hero-visual fade-up-2">
+      <div class="glow-ring"></div>
+      <div class="hero-card-stack">
+        <div class="hero-game-card">
+          <div class="hgc-thumb" style="background:linear-gradient(135deg,#1a0533,#2d1060);">⚔️</div>
+          <div class="hgc-info">
+            <div class="hgc-title">Shadow Realm RPG</div>
+            <div class="hgc-meta"><span class="hgc-rating">★★★★☆</span><span class="badge badge-purple">RPG</span></div>
+          </div>
+        </div>
+        <div class="hero-game-card">
+          <div class="hgc-thumb" style="background:linear-gradient(135deg,#001a33,#003366);">🚀</div>
+          <div class="hgc-info">
+            <div class="hgc-title">Void Striker</div>
+            <div class="hgc-meta"><span class="hgc-rating">★★★★★</span><span class="badge badge-cyan">Shooter</span></div>
+          </div>
+        </div>
+        <div class="hero-game-card">
+          <div class="hgc-thumb" style="background:linear-gradient(135deg,#0d1a33,#162d6b);">🏆</div>
+          <div class="hgc-info">
+            <div class="hgc-title">Arena Champions</div>
+            <div class="hgc-meta"><span class="hgc-rating">★★★★★</span><span class="badge badge-orange">MOBA</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="featured">
-
-<h2>🔥 Featured Games</h2>
-
-<div class="cards">
-
-<div class="card">
-<h3>Free Fire</h3>
-<p>Earn rewards by joining through our referral link.</p>
-
-<a href="#">Play Now</a>
-
-</div>
-
-<div class="card">
-<h3>PUBG Mobile</h3>
-<p>Join and start playing today.</p>
-
-<a href="#">Play Now</a>
-
-</div>
-
-<div class="card">
-<h3>COD Mobile</h3>
-<p>Best action game with exciting rewards.</p>
-
-<a href="#">Play Now</a>
-
-</div>
-
-</div>
-
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px;" class="reveal">
+      <div class="eyebrow">Simple Process</div>
+      <h2 class="section-title">How <span>NexusPlay</span> Works</h2>
+      <div class="divider"></div>
+      <p style="color:var(--text-secondary);max-width:520px;margin:0 auto;">Three easy steps to start discovering games and earning through referrals. No sign-up required to browse.</p>
+    </div>
+    <div class="steps-grid reveal-group">
+      <div class="card step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon">🔍</div>
+        <h3>Browse the Library</h3>
+        <p>Explore our curated catalog of 120+ games across every genre — RPG, shooter, strategy, MOBA, and more. Filter by category to find your perfect match.</p>
+        <div class="step-connector"></div>
+      </div>
+      <div class="card step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon">🔗</div>
+        <h3>Grab Your Referral Link</h3>
+        <p>Each game listing has a unique referral link. Copy it in one click and share it anywhere — social media, Discord, YouTube, or directly with friends.</p>
+        <div class="step-connector"></div>
+      </div>
+      <div class="card step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon">💰</div>
+        <h3>Earn Real Rewards</h3>
+        <p>Every player who joins through your link earns you points, in-game currency, or cash — depending on the game's reward program. Stack up your earnings fast.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- ===== FEATURED GAMES ===== -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;" class="reveal">
+      <div>
+        <div class="eyebrow">Top Picks</div>
+        <h2 class="section-title">Featured <span>Games</span></h2>
+      </div>
+      <a href="pages/games.html" class="btn btn-outline btn-sm">View All →</a>
+    </div>
+    <div class="games-grid reveal-group">
+      <div class="card feat-game-card">
+        <div class="fgc-thumb" style="background:linear-gradient(135deg,#0d0533,#2d1060);">⚔️</div>
+        <div class="fgc-body">
+          <div class="fgc-top">
+            <div class="fgc-title">Shadow Realm RPG</div>
+            <span class="badge badge-purple">RPG</span>
+          </div>
+          <p class="fgc-desc">Immerse yourself in a dark fantasy world with rich lore, real-time combat, and endless character customization options.</p>
+          <div class="fgc-footer">
+            <a href="pages/games.html" class="btn btn-primary btn-sm">Play Now</a>
+            <button class="btn btn-outline btn-sm copy-btn" data-url="https://shadowrealmrpg.com/ref=nexusplay">Copy Link</button>
+          </div>
+        </div>
+      </div>
+      <div class="card feat-game-card">
+        <div class="fgc-thumb" style="background:linear-gradient(135deg,#001a33,#003366);">🚀</div>
+        <div class="fgc-body">
+          <div class="fgc-top">
+            <div class="fgc-title">Void Striker</div>
+            <span class="badge badge-cyan">Shooter</span>
+          </div>
+          <p class="fgc-desc">Fast-paced zero-gravity shooter with stunning visuals, ranked competitive modes, and weekly battle pass rewards.</p>
+          <div class="fgc-footer">
+            <a href="pages/games.html" class="btn btn-primary btn-sm">Play Now</a>
+            <button class="btn btn-outline btn-sm copy-btn" data-url="https://voidstriker.gg/ref=nexusplay">Copy Link</button>
+          </div>
+        </div>
+      </div>
+      <div class="card feat-game-card">
+        <div class="fgc-thumb" style="background:linear-gradient(135deg,#1a1a00,#3d3300);">🏆</div>
+        <div class="fgc-body">
+          <div class="fgc-top">
+            <div class="fgc-title">Arena Champions</div>
+            <span class="badge badge-orange">MOBA</span>
+          </div>
+          <p class="fgc-desc">5v5 tactical MOBA with 80+ unique champions, a thriving esports scene, and massive referral bonuses for new recruits.</p>
+          <div class="fgc-footer">
+            <a href="pages/games.html" class="btn btn-primary btn-sm">Play Now</a>
+            <button class="btn btn-outline btn-sm copy-btn" data-url="https://arenachampions.com/ref=nexusplay">Copy Link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BANNER CTA ===== -->
+<section class="section">
+  <div class="container reveal">
+    <div class="banner-cta">
+      <div class="orb orb-purple" style="width:400px;height:400px;top:-150px;right:-100px;opacity:0.6;"></div>
+      <div class="eyebrow">Start Today</div>
+      <h2>Ready to Level Up Your Earnings?</h2>
+      <p>Join thousands of gamers already sharing referrals and earning rewards through NexusPlay.</p>
+      <div class="banner-actions">
+        <a href="pages/games.html" class="btn btn-primary">Browse All Games</a>
+        <a href="pages/contact.html" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
 <footer>
-
-<p>© 2026 Gaming World PK</p>
-
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="font-size:1rem;">
+          <div class="logo-icon">🎮</div> NexusPlay
+        </a>
+        <p>Your trusted hub for curated gaming referral links. Discover new games and earn real rewards by sharing with the community.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="pages/games.html">Games</a></li>
+          <li><a href="pages/about.html">About</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="pages/games.html">RPG Games</a></li>
+          <li><a href="pages/games.html">Shooters</a></li>
+          <li><a href="pages/games.html">MOBA</a></li>
+          <li><a href="pages/games.html">Strategy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Affiliate Disclosure</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 NexusPlay. All rights reserved.</p>
+      <p>Built with ❤️ for gamers worldwide</p>
+    </div>
+  </div>
 </footer>
 
-<script src="script.js"></script>
-
+<script src="js/main.js"></script>
 </body>
 </html>
-  *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#111;
-color:white;
-}
-
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px;
-background:#1b1b1b;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
-}
-
-nav a:hover{
-color:#00ff99;
-}
-
-.hero{
-text-align:center;
-padding:80px 20px;
-}
-
-.hero h2{
-font-size:45px;
-margin-bottom:20px;
-}
-
-.hero p{
-margin-bottom:30px;
-}
-
-.btn{
-background:#00ff99;
-padding:15px 30px;
-color:black;
-text-decoration:none;
-font-weight:bold;
-border-radius:5px;
-}
-
-.featured{
-padding:50px;
-}
-
-.cards{
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-justify-content:center;
-}
-
-.card{
-background:#222;
-padding:20px;
-width:300px;
-border-radius:10px;
-text-align:center;
-}
-
-.card h3{
-margin-bottom:15px;
-}
-
-.card p{
-margin-bottom:20px;
-}
-
-.card a{
-display:inline-block;
-background:#00ff99;
-padding:10px 20px;
-text-decoration:none;
-color:black;
-font-weight:bold;
-border-radius:5px;
-}
-
-footer{
-text-align:center;
-padding:20px;
-margin-top:40px;
-background:#1b1b1b;
-}
-  console.log("Gaming World PK Loaded");
