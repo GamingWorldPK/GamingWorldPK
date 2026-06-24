@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gaming Hub - Games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #fff;
+    }
+
+    header {
+      background: #111827;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #38bdf8;
+    }
+
+    /* Search Bar */
+    .search-bar {
+      text-align: center;
+      margin: 20px;
+    }
+
+    .search-bar input {
+      width: 60%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    /* Categories */
+    .categories {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .categories button {
+      margin: 5px;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      background: #1f2937;
+      color: white;
+      transition: 0.3s;
+    }
+
+    .categories button:hover {
+      background: #38bdf8;
+      color: black;
+    }
+
+    /* Game Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #1f2937;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 10px;
+    }
+
+    .rating {
+      color: gold;
+      margin: 5px 0;
+    }
+
+    .btn {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      padding: 10px;
+      background: #38bdf8;
+      color: black;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #0ea5e9;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #111827;
+      margin-top: 20px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>🎮 Gaming Referral Hub</header>
+
+<!-- Search -->
+<div class="search-bar">
+  <input type="text" placeholder="Search games...">
+</div>
+
+<!-- Categories -->
+<div class="categories">
+  <button>All</button>
+  <button>Action</button>
+  <button>Adventure</button>
+  <button>FPS</button>
+  <button>Racing</button>
+  <button>Strategy</button>
+</div>
+
+<!-- Games Grid -->
+<div class="grid">
+
+  <div class="card">
+    <img src="https://via.placeholder.com/300x150" alt="Game">
+    <div class="card-content">
+      <h3>Game Title 1</h3>
+      <div class="rating">⭐⭐⭐⭐☆</div>
+      <p>Best action-packed game with rewards.</p>
+      <a href="#" class="btn">🔥 Play & Earn</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/300x150" alt="Game">
+    <div class="card-content">
+      <h3>Game Title 2</h3>
+      <div class="rating">⭐⭐⭐⭐⭐</div>
+      <p>Top trending multiplayer game.</p>
+      <a href="#" class="btn">💰 Join Now</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/300x150" alt="Game">
+    <div class="card-content">
+      <h3>Game Title 3</h3>
+      <div class="rating">⭐⭐⭐⭐☆</div>
+      <p>Adventure game with rewards system.</p>
+      <a href="#" class="btn">🚀 Start Playing</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Gaming Hub | All Rights Reserved
+</footer>
+
+</body>
+</html>
